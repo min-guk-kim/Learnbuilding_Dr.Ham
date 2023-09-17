@@ -1,0 +1,2 @@
+com.flir.thermalsdk.androidsdk
+string app_name

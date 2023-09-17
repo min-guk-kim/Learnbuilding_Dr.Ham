@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.flir.thermalsdk.androidsdk"
+    android:versionCode="10030"
+    android:versionName="1.3.0" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="29" />
+
+    <!-- The only mandatory permissions to initialize SDK properly are READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE -->
+    <!-- App specific permissions should go to the corresponding app Manifest file -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+</manifest>

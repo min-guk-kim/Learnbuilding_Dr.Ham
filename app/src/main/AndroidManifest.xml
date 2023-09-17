@@ -14,7 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
-        <activity android:name=".MainActivity" >
+        <!--
+        code "android:exported="false"  below has been added to solve the release error below:
+        You uploaded an APK or Android App Bundle which has an activity, activity alias, service or broadcast receiver with intent filter,
+        but without 'android:exported' property set. This file can't be installed on Android 12 or higher.
+        See: developer.android.com/about/versions/12/behavior-changes-12#exported
+        -->
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

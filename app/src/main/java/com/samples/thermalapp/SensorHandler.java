@@ -109,34 +109,34 @@ public class SensorHandler {
         //reads response
         ArrayList<Double> readings = new ArrayList<Double>();
         try(BufferedReader br = new BufferedReader(
-                new InputStreamReader(con.getInputStream(), "utf-8"))) {
-            StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-            //unpacks json
-            JSONObject sensor1JsonObject = new JSONObject(response.toString());
-            sensor1JsonObject = sensor1JsonObject.getJSONObject("sensors");
-            //System.out.println(obj);
-            JSONObject sensor2JsonObject = sensor1JsonObject.getJSONArray(passwords.SENSORNAME2).getJSONObject(0);
-            sensor1JsonObject = sensor1JsonObject.getJSONArray(passwords.SENSORNAME1).getJSONObject(0);
+            new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                //unpacks json
+                JSONObject sensor1JsonObject = new JSONObject(response.toString());
+                sensor1JsonObject = sensor1JsonObject.getJSONObject("sensors");
+                //System.out.println(obj);
+                JSONObject sensor2JsonObject = sensor1JsonObject.getJSONArray(passwords.SENSORNAME2).getJSONObject(0);
+                sensor1JsonObject = sensor1JsonObject.getJSONArray(passwords.SENSORNAME1).getJSONObject(0);
 
-            System.out.println("reading sensor1 "+ sensor1JsonObject);
-            System.out.println("reading sensor2 "+ sensor2JsonObject);
+                System.out.println("reading sensor1 "+ sensor1JsonObject);
+                System.out.println("reading sensor2 "+ sensor2JsonObject);
 
-            if(sensorID == 1)
-            {
-                readings.add(Double.parseDouble(sensor1JsonObject.getString("temperature")));
-                readings.add(Double.parseDouble(sensor1JsonObject.getString("humidity")));
-            }
-            if(sensorID == 2)
-            {
-                readings.add(Double.parseDouble(sensor2JsonObject.getString("temperature")));
-                readings.add(Double.parseDouble(sensor2JsonObject.getString("humidity")));
-            }
+                if(sensorID == 1)
+                {
+                    readings.add(Double.parseDouble(sensor1JsonObject.getString("temperature")));
+                    readings.add(Double.parseDouble(sensor1JsonObject.getString("humidity")));
+                }
+                if(sensorID == 2)
+                {
+                    readings.add(Double.parseDouble(sensor2JsonObject.getString("temperature")));
+                    readings.add(Double.parseDouble(sensor2JsonObject.getString("humidity")));
+                }
 
-            System.out.println(readings);
+                System.out.println(readings);
         } catch (JSONException e) {
             e.printStackTrace();
         }

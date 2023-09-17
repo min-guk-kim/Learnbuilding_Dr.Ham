@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isChecked) {
                     SensorID = 2;
                 } else {
-                    SensorID =1;
+                    SensorID = 1;
                 }
             }
         });
@@ -498,6 +498,11 @@ public class MainActivity extends AppCompatActivity {
                             //calls methods to read from the sensors and collect output
                             String key = SensorHandler.Authenticate();
                             ArrayList<Double> output = SensorHandler.QuerySamples(key,SensorID);
+
+                            //Log
+                            Log.d("Debug", "Key: " + key);
+                            Log.d("Debug", "SensorID: " + SensorID);
+
                             //thread saftey
                             newData = true;
                             runOnUiThread(new Runnable() {
@@ -524,7 +529,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void updateUIFromSensor(Double temperature, Double humidity) {
-
         //changes from F to C
         CutoffTemperature = (temperature - 32) * (5.0 / 9.0);
 
