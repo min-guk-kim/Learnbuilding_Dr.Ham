@@ -19,5 +19,4 @@ The latest version containing all the recent updates is now available on the [Go
 - **New Feature**: Introduced a button that allows users to select their preferred sensor for data retrieval. While the necessary functions were already coded in the previous version, they were not uploaded to the Play Store; I have tested and applied these updates, making them now available to all users.
 
 #### **Update 3: Privacy Policy for Release
-- 
-https://app.termly.io/dashboard/website/da269f1a-5163-4f43-8c7a-267f9f10f92e/privacy-policy에 policy추가
+- https://app.termly.io/dashboard/website/da269f1a-5163-4f43-8c7a-267f9f10f92e/privacy-policy
