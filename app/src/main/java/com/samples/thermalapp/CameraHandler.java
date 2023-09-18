@@ -242,6 +242,7 @@ class CameraHandler {
                 //System.out.println(dcBitmap.getWidth()+" "+dcBitmap.getHeight());
                 Log.d(TAG, "adding images to cache");
                 streamDataListener.images(msxBitmap, dcBitmap,minC,maxC);
+                Log.d(TAG, "dc1234: " + dcBitmap);
             }
 
         }

@@ -7,11 +7,11 @@ android {
         applicationId "com.samples.thermalapp"
         minSdkVersion 22
         targetSdkVersion 33 // from 29 @ version 1.6
-        versionCode 14
-        versionName "2.4"
+        versionCode 16
+        versionName "2.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
+            abiFilters "armeabi-v7a", 'arm64-v8a'
         }
     }
     buildTypes {

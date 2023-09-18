@@ -32,6 +32,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+// Added to solve a thermal camera toggle issue
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
+import java.util.HashMap;
+
 /**
  * Sample application for scanning a FLIR ONE or a built in emulator
  * <p>
@@ -59,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView msxImage;
     private Boolean CONNECT = true;
     private LinkedBlockingQueue<FrameDataHolder> framesBuffer = new LinkedBlockingQueue(21);
+
     private UsbPermissionHandler usbPermissionHandler = new UsbPermissionHandler();
+    private MyUsbPermissionHandler myUsbPermissionHandler = new MyUsbPermissionHandler();
 
     private static double CutoffTemperature = 20;
     private static double CutoffHumidity = 100;
@@ -68,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
     private volatile boolean newData = false;
     private volatile boolean isUpdatingFromSensor = true;
     private int SensorID = 1;
+
+    // Added to solve a thermal camera toggle issue
+    private static final String ACTION_USB_PERMISSION = "com.samples.thermalapp.USB_PERMISSION";
 
     EditText cutoffTemperatureInput;
     EditText cutoffHumidityInput;
@@ -236,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Connect to a Camera
      */
+
     private void connect(Identity identity) {
         //We don't have to stop a discovery but it's nice to do if we have found the camera that we are looking for
         //disconnect();
@@ -258,36 +271,46 @@ public class MainActivity extends AppCompatActivity {
         //updateConnectionText(identity, "CONNECTING");
         //IF your using "USB_DEVICE_ATTACHED" and "usb-device vendor-id" in the Android Manifest
         // you don't need to request permission, see documentation for more information
+        // Check if the connected device is a Flir One and request USB permission if true
         if (UsbPermissionHandler.isFlirOne(identity)) {
-            usbPermissionHandler.requestFlirOnePermisson(identity, this, permissionListener);
-        } else {
+            //usbPermissionHandler.requestFlirOnePermisson(identity, this, permissionListener);
+            myUsbPermissionHandler.requestFlirOnePermisson(identity, this, permissionListener);
             doConnect(identity);
         }
-
+        else
+        {
+            // If the device is not a Flir One, proceed to establish a connection (?)
+            // doConnect(identity);
+        }
     }
 
     private UsbPermissionHandler.UsbPermissionListener permissionListener = new UsbPermissionHandler.UsbPermissionListener() {
         @Override
         public void permissionGranted(Identity identity) {
             doConnect(identity);
+            Log.d(TAG, "Permission was granted for identity ");
         }
 
         @Override
         public void permissionDenied(Identity identity) {
             MainActivity.this.showMessage.show("Permission was denied for identity ");
+            Log.d(TAG, "Permission was denied for identity ");
         }
 
         @Override
         public void error(UsbPermissionHandler.UsbPermissionListener.ErrorType errorType, final Identity identity) {
             MainActivity.this.showMessage.show("Error when asking for permission for FLIR ONE, error:" + errorType + " identity:" + identity);
+            Log.d(TAG, "Error when asking for permission for FLIR ONE, error:" + errorType + " identity:" + identity);
         }
     };
 
     private void doConnect(Identity identity) {
         new Thread(() -> {
             try {
+                Log.d(TAG, "Trying to connect...");
                 cameraHandler.connect(identity, connectionStatusListener);
                 runOnUiThread(() -> {
+                    Log.d(TAG, "Starting stream...");
                     //updateConnectionText(identity, "CONNECTING");
                     cameraHandler.startStream(streamDataListener);
                     //updateConnectionText(identity, "CONNECTED");
@@ -547,4 +570,37 @@ public class MainActivity extends AppCompatActivity {
         CutoffTemperature = 273.15+CutoffTemperature;
     }
 
+    public class MyUsbPermissionHandler extends UsbPermissionHandler {
+
+        @Override
+        public void requestFlirOnePermisson(Identity identity, Context context, UsbPermissionListener listener) {
+            if (identity != null) {
+                // Create an Intent for USB permission request
+                PendingIntent permissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+
+                // Get the USB Manager
+                UsbManager usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
+
+                // Get a list of USB devices
+                HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
+
+                UsbDevice device = null;
+                // Find the required USB device (e.g., device with Vendor ID 0x09CB == FLIR CAMERA)
+                for (UsbDevice currentDevice : deviceList.values()) {
+                    if (currentDevice.getVendorId() == 0x09CB) {
+                        device = currentDevice;
+                        break;
+                    }
+                }
+
+                if (device != null) {
+                    // Request USB permission
+                    usbManager.requestPermission(device, permissionIntent);
+                } else {
+                    // Handle the case where the required device is not found
+                    // Add necessary handling here
+                }
+            }
+        }
+    }
 }
