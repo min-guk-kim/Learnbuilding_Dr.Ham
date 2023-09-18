@@ -20,3 +20,11 @@ The latest version containing all the recent updates is now available on the [Go
 
 #### **Update 3: Privacy Policy for Release
 - https://app.termly.io/dashboard/website/da269f1a-5163-4f43-8c7a-267f9f10f92e/privacy-policy
+
+### 2023-09-17 (by Minguk Kim)
+#### Version Code: 16
+#### Version Name: 2.6
+The latest version containing all the recent updates is now available on the [Google Play Store]
+
+#### **Update 1: App Stability Enhancement**
+- **Fix**: Resolved a problem causing the app to crash when toggling the thermal camera on and off. This issue was specific to smartphones running API 31 or higher.
