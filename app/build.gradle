@@ -5,10 +5,10 @@ android {
 
     defaultConfig {
         applicationId "com.samples.thermalapp"
-        minSdkVersion 22
+        minSdkVersion 24 // if we set this at 22, the app starts to crash when we push the Thermal Camera toggle.
         targetSdkVersion 33 // from 29 @ version 1.6
-        versionCode 16
-        versionName "2.6"
+        versionCode 17
+        versionName "2.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi-v7a", 'arm64-v8a'

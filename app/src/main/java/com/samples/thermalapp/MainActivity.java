@@ -273,14 +273,14 @@ public class MainActivity extends AppCompatActivity {
         // you don't need to request permission, see documentation for more information
         // Check if the connected device is a Flir One and request USB permission if true
         if (UsbPermissionHandler.isFlirOne(identity)) {
-            //usbPermissionHandler.requestFlirOnePermisson(identity, this, permissionListener);
             myUsbPermissionHandler.requestFlirOnePermisson(identity, this, permissionListener);
+            //usbPermissionHandler.requestFlirOnePermisson(identity, this, permissionListener);
             doConnect(identity);
         }
         else
         {
             // If the device is not a Flir One, proceed to establish a connection (?)
-            // doConnect(identity);
+            doConnect(identity);
         }
     }
 

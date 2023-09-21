@@ -28,3 +28,11 @@ The latest version containing all the recent updates is now available on the [Go
 
 #### **Update 1: App Stability Enhancement**
 - **Fix**: Resolved a problem causing the app to crash when toggling the thermal camera on and off. This issue was specific to smartphones running API 31 or higher.
+
+### 2023-09-20 (by Minguk Kim)
+#### Version Code: 17
+#### Version Name: 2.7
+The latest version containing all the recent updates is now available on the [Google Play Store]
+
+#### **Update 1: App Stability Enhancement**
+- **Fix**: Resolved a problem causing the app to crash when toggling the thermal camera on and off. This issue was specific to minSdkVersion. The minimum version should be 24 at least.
